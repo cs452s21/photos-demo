@@ -10,12 +10,19 @@ main =
     Browser.sandbox { init = init, update = update, view = view }
 
 
+
 -- Create a new type called Msg that can be a Click contains a String
-type Msg = Click String
-
--- Initial model is empty record.
 
 
+type Msg
+    = Click String
+
+
+type alias Model =
+    { photos : List String, selectedUrl : String }
+
+
+init : Model
 init =
     { photos =
         [ "1.jpg"
@@ -30,6 +37,7 @@ init =
 -- A view transforms our model into a web page.
 
 
+view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Photos" ]
@@ -43,13 +51,18 @@ view model =
 -- output will be an image tag
 
 
+viewThumbnail : String -> Html Msg
 viewThumbnail thumbUrl =
     img [ src ("../small/" ++ thumbUrl), onClick (Click thumbUrl) ] []
 
 
+
 -- Called in response to any event (for us, onClick)
 -- update function returns a model.
+
+
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Click url ->
-            {model | selectedUrl = url }
+            { model | selectedUrl = url }
